@@ -6,10 +6,24 @@
 #         self.right = right
 class Solution:
     def countNodes(self, root: Optional[TreeNode]) -> int:
-        def dfs(root):
-            if not root:
-                return []
-            
-            return dfs(root.left) + [root.val] + dfs(root.right)
+        if not root:
+            return 0
         
-        return len(dfs(root))
+        left_level = 1
+        left = root.left
+        right_level = 1
+        right = root.right
+        
+        while left:
+            left_level += 1
+            left = left.left
+        
+        while right:
+            right_level += 1
+            right = right.right
+        
+        if left_level == right_level:
+            return  (2**left_level) - 1
+        
+        return 1 + self.countNodes(root.left) + self.countNodes(root.right)
+    
