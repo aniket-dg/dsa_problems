@@ -1,15 +1,11 @@
 class Solution:
     def pivotIndex(self, nums: List[int]) -> int:
-        prefix = [nums[0]]
-        postfix = [nums[-1]]
-        for i in range(1, len(nums)):
-            prefix.append(prefix[-1]+nums[i])
-        for i in range(len(nums)-2, -1, -1):
-            postfix.append(postfix[-1] + nums[i])
+        left, right = 0, sum(nums)
         
-        postfix = postfix[::-1]
-        
-        for i in range(len(prefix)):
-            if prefix[i] == postfix[i]:
+        for i, item in enumerate(nums):
+            right -= item
+            if left == right:
                 return i
+            left += item
+        
         return -1
